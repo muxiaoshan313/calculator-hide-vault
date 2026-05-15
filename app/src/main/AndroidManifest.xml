@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+    </queries>
+
     <application
         android:allowBackup="true"
         android:name=".activities.App"
@@ -15,7 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PrivateSpace">
 
-        <!-- Main Calculator Activity (Launcher) -->
+        <!-- Calculator entry (app icon) -->
         <activity
             android:name=".activities.CalculatorActivity"
             android:exported="true"
@@ -25,6 +32,39 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Default HOME launcher -->
+        <activity
+            android:name=".ui.launcher.HomeLauncherActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:stateNotNeeded="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.launcher.AppDrawerActivity"
+            android:exported="false"
+            android:launchMode="singleTop" />
+
+        <activity
+            android:name=".ui.launcher.PrivateDesktopActivity"
+            android:exported="false"
+            android:launchMode="singleTop" />
+
+        <activity
+            android:name=".ui.launcher.PrivateAppManagerActivity"
+            android:exported="false"
+            android:launchMode="singleTop" />
+
+        <activity
+            android:name=".ui.launcher.LauncherSettingsActivity"
+            android:exported="false"
+            android:launchMode="singleTop" />
 
         <!-- Unlock Activity -->
         <activity
@@ -41,6 +81,11 @@
         <!-- Preview Activity -->
         <activity
             android:name=".activities.PreviewActivity"
+            android:exported="false"
+            android:launchMode="singleTop" />
+
+        <activity
+            android:name=".ui.auth.PinVerifyActivity"
             android:exported="false"
             android:launchMode="singleTop" />
 

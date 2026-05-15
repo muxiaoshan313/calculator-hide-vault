@@ -1,4 +1,4 @@
-package calculator.hide.vault
+package calculator.hide.vaultpro
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("calculator.hide.vault", appContext.packageName)
+        assertEquals("calculator.hide.vaultpro", appContext.packageName)
     }
 }

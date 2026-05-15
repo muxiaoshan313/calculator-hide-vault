@@ -1,3 +1,51 @@
 <resources>
     <string name="app_name">Calculator - Hide Vault</string>
+
+    <!-- PIN -->
+    <string name="enter_pin">Enter PIN</string>
+    <string name="set_pin_title">Set PIN (4-12 digits)</string>
+    <string name="set_pin_button">Set PIN</string>
+    <string name="confirm_pin_title">Confirm PIN</string>
+    <string name="confirm_pin_hint">Please confirm your PIN</string>
+    <string name="unlock">Unlock</string>
+    <string name="pin_length_error">PIN must be 4-12 digits</string>
+    <string name="pin_digits_only">PIN must contain only digits</string>
+    <string name="pin_mismatch">PINs do not match</string>
+    <string name="pin_set_failed">Failed to set PIN</string>
+    <string name="incorrect_pin">Incorrect PIN</string>
+
+    <!-- Launcher -->
+    <string name="public_launcher_title">Public Launcher</string>
+    <string name="private_launcher_title">Private Launcher Space</string>
+    <string name="private_app_manager_title">Private App Manager</string>
+    <string name="launcher_compliance_notice">This feature creates a private app area inside this launcher. Apps added to Private Space are hidden only from this launcher\'s public home screen. They may still appear in system settings or other launchers. You can remove apps from Private Space at any time.</string>
+    <string name="search_apps">Search apps</string>
+    <string name="set_default_home">Set as default home screen</string>
+    <string name="back_to_calculator">Back to Calculator</string>
+    <string name="exit_private_space">Exit private space</string>
+    <string name="remove_all">Remove all from private space</string>
+    <string name="clear_all_hidden_title">Remove all?</string>
+    <string name="clear_all_hidden_message">Remove every app from the private launcher space?</string>
+    <string name="app_added_to_private">Added to private space: %1$s</string>
+    <string name="app_removed_from_private">Removed from private space: %1$s</string>
+    <string name="already_default_home">Already the default home app</string>
+    <string name="home_settings_unavailable">Unable to open home settings</string>
+    <string name="default_home_set">Set as default home. Press Home to open your desktop.</string>
+    <string name="app_icon">App icon</string>
+    <string name="all_apps">All apps</string>
+    <string name="private_space">Private space</string>
+    <string name="desktop_full">Desktop is full</string>
+    <string name="dock_full">Dock is full</string>
+    <string name="remove_from_desktop">Remove from desktop</string>
+    <string name="remove_from_dock">Remove from dock</string>
+    <string name="move_to_private_space">Move to Private Space</string>
+    <string name="remove_from_private_space">Remove from Private Space</string>
+    <string name="add_to_desktop">Add to desktop</string>
+    <string name="add_to_dock">Add to dock</string>
+    <string name="app_info">App info</string>
+    <string name="uninstall">Uninstall</string>
+    <string name="action_unavailable">Action unavailable</string>
+    <string name="launcher_settings_title">Launcher settings</string>
+    <string name="default_home_status_set">This app is your default home screen.</string>
+    <string name="default_home_status_not_set">This app is not set as the default home screen. Tap below to set it.</string>
 </resources>

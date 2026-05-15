@@ -5,17 +5,17 @@ plugins {
 }
 
 android {
-    namespace = "calculator.hide.vault"
+    namespace = "calculator.hide.vaultpro"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "calculator.hide.vault"
+        applicationId = "calculator.hide.vaultpro"
         minSdk = 24
         targetSdk = 35
-        versionCode = 4
-        versionName = "4.0"
+        versionCode = 1
+        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -61,13 +61,21 @@ dependencies {
     
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
+
+    // DataStore
+    implementation(libs.androidx.datastore.preferences)
+
+    // Fragment / RecyclerView / Activity
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.activity.ktx)
     
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation(files("libs/unityLibrary-debug.aar"))
-
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.9.0"))
-    api("com.chafennet.uaas:lib-for-calculator.hide.vault-google:1.0.0")
+//    implementation(files("libs/unityLibrary-debug.aar"))
+//
+//    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.9.0"))
+//    api("com.chafennet.uaas:lib-for-calculator.hide.vaultpro-google:1.0.0")
 }

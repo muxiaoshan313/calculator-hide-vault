@@ -1,4 +1,4 @@
-package calculator.hide.vault
+package calculator.hide.vaultpro
 
 import org.junit.Test
 
