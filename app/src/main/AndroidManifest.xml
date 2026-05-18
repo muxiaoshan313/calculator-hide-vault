@@ -2,20 +2,26 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+    </queries>
+
     <application
-        android:allowBackup="true"
         android:name=".activities.App"
-        android:usesCleartextTraffic="true"
-        tools:replace="android:usesCleartextTraffic"
+        android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.PrivateSpace">
+        android:theme="@style/Theme.PrivateSpace"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:usesCleartextTraffic">
 
-        <!-- Main Calculator Activity (Launcher) -->
         <activity
             android:name=".activities.CalculatorActivity"
             android:exported="true"
@@ -26,25 +32,58 @@
             </intent-filter>
         </activity>
 
-        <!-- Unlock Activity -->
+        <activity
+            android:name=".ui.launcher.HomeLauncherActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:stateNotNeeded="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.launcher.AppDrawerActivity"
+            android:exported="false"
+            android:launchMode="singleTop" />
+
+        <activity
+            android:name=".ui.launcher.PrivateDesktopActivity"
+            android:exported="false"
+            android:launchMode="singleTop" />
+
+        <activity
+            android:name=".ui.launcher.PrivateAppManagerActivity"
+            android:exported="false"
+            android:launchMode="singleTop" />
+
+        <activity
+            android:name=".ui.launcher.LauncherSettingsActivity"
+            android:exported="false"
+            android:launchMode="singleTop" />
+
         <activity
             android:name=".activities.UnlockActivity"
             android:exported="false"
             android:launchMode="singleTop" />
 
-        <!-- Vault Activity -->
         <activity
             android:name=".activities.VaultActivity"
             android:exported="false"
             android:launchMode="singleTop" />
 
-        <!-- Preview Activity -->
         <activity
             android:name=".activities.PreviewActivity"
             android:exported="false"
             android:launchMode="singleTop" />
 
-        <!-- FileProvider for sharing decrypted files -->
+        <activity
+            android:name=".ui.auth.PinVerifyActivity"
+            android:exported="false"
+            android:launchMode="singleTop" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

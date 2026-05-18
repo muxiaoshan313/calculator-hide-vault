@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#000000"
+    android:padding="12dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/private_app_manager_title"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:paddingBottom="4dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/launcher_compliance_notice"
+        android:textColor="#888888"
+        android:textSize="11sp"
+        android:paddingBottom="8dp" />
+
+    <EditText
+        android:id="@+id/etManagerSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/search_apps"
+        android:inputType="text"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#888888"
+        android:background="#1C1C1E"
+        android:padding="12dp"
+        android:layout_marginBottom="8dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvManagerApps"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/btnClearAll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/remove_all"
+        android:backgroundTint="#333333"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/btnBackCalculator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/back_to_calculator"
+        android:backgroundTint="#FF9500"
+        android:textColor="#FFFFFF" />
+
+</LinearLayout>

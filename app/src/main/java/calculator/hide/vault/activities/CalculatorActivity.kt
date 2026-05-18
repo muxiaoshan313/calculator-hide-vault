@@ -10,6 +10,10 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import calculator.hide.vault.R
+import calculator.hide.vault.config.SecretFormulaConfig
+import calculator.hide.vault.ui.launcher.HomeLauncherActivity
+import calculator.hide.vault.ui.launcher.PrivateAppManagerActivity
+import calculator.hide.vault.ui.launcher.PrivateDesktopActivity
 
 /**
  * Calculator Activity - Main entry point
@@ -116,7 +120,8 @@ class CalculatorActivity : AppCompatActivity() {
     
     private fun calculate() {
         if (currentInput.isEmpty()) return
-        
+        if (trySecretFormulaNavigation()) return
+
         try {
             val expression = currentInput.toString()
             val result = evaluateExpression(expression)
@@ -270,9 +275,29 @@ class CalculatorActivity : AppCompatActivity() {
         displayTextView.text = if (currentInput.isEmpty()) "0" else currentInput.toString()
     }
     
+    private fun trySecretFormulaNavigation(): Boolean {
+        val destination = SecretFormulaConfig.matchDestination(currentInput.toString())
+            ?: return false
+
+        shouldCalculate = false
+        currentInput.clear()
+        updateDisplay()
+
+        val target = when (destination) {
+            SecretFormulaConfig.Destination.PRIVATE_APP_MANAGER ->
+                Intent(this, PrivateAppManagerActivity::class.java)
+            SecretFormulaConfig.Destination.PUBLIC_DESKTOP ->
+                Intent(this, HomeLauncherActivity::class.java)
+            SecretFormulaConfig.Destination.PRIVATE_DESKTOP ->
+                Intent(this, PrivateDesktopActivity::class.java)
+        }
+        startActivity(target)
+        return true
+    }
+
     private fun checkSecretCode() {
         val input = currentInput.toString()
-        if (input == SECRET_CODE) {
+        if (input == SecretFormulaConfig.FORMULA_VAULT) {
             // Start long press timer
             longPressRunnable = Runnable {
                 // Trigger unlock

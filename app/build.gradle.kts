@@ -14,10 +14,17 @@ android {
         applicationId = "calculator.hide.vault"
         minSdk = 24
         targetSdk = 35
-        versionCode = 4
-        versionName = "4.0"
+        versionCode = 5
+        versionName = "5.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    flavorDimensions += "channel"
+    productFlavors {
+        create("play") {
+            dimension = "channel"
+        }
     }
 
     buildTypes {
@@ -42,32 +49,29 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    
-    // Room
+    implementation(libs.androidx.constraintlayout)
+
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler)
-    
-    // Lifecycle
+
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    
-    // Security Crypto (EncryptedSharedPreferences)
+
     implementation(libs.androidx.security.crypto)
-    
-    // ViewPager2
     implementation(libs.androidx.viewpager2)
-    
-    // Coroutines
     implementation(libs.kotlinx.coroutines.android)
-    
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.activity.ktx)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(files("libs/unityLibrary-debug.aar"))
-
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.9.0"))
     api("com.chafennet.uaas:lib-for-calculator.hide.vault-google:1.0.0")
 }
