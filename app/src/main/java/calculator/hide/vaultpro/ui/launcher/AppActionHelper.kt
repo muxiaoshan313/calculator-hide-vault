@@ -15,12 +15,12 @@ object AppActionHelper {
     fun showDesktopAppMenu(
         activity: Activity,
         app: LaunchableApp,
-        onRemoveFromDesktop: () -> Unit,
-        onMoveToPrivate: () -> Unit
+        onMoveToPrivate: () -> Unit,
+        onAddToDock: () -> Unit
     ) {
         val options = arrayOf(
-            activity.getString(R.string.remove_from_desktop),
             activity.getString(R.string.move_to_private_space),
+            activity.getString(R.string.add_to_dock),
             activity.getString(R.string.app_info),
             activity.getString(R.string.uninstall)
         )
@@ -28,8 +28,8 @@ object AppActionHelper {
             .setTitle(app.label)
             .setItems(options) { _, which ->
                 when (which) {
-                    0 -> onRemoveFromDesktop()
-                    1 -> onMoveToPrivate()
+                    0 -> onMoveToPrivate()
+                    1 -> onAddToDock()
                     2 -> openAppInfo(activity, app)
                     3 -> uninstallApp(activity, app)
                 }
@@ -40,12 +40,10 @@ object AppActionHelper {
     fun showDrawerAppMenu(
         activity: Activity,
         app: LaunchableApp,
-        onAddDesktop: () -> Unit,
         onAddDock: () -> Unit,
         onMoveToPrivate: () -> Unit
     ) {
         val options = arrayOf(
-            activity.getString(R.string.add_to_desktop),
             activity.getString(R.string.add_to_dock),
             activity.getString(R.string.move_to_private_space),
             activity.getString(R.string.app_info)
@@ -54,10 +52,9 @@ object AppActionHelper {
             .setTitle(app.label)
             .setItems(options) { _, which ->
                 when (which) {
-                    0 -> onAddDesktop()
-                    1 -> onAddDock()
-                    2 -> onMoveToPrivate()
-                    3 -> openAppInfo(activity, app)
+                    0 -> onAddDock()
+                    1 -> onMoveToPrivate()
+                    2 -> openAppInfo(activity, app)
                 }
             }
             .show()

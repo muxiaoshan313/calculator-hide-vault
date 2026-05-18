@@ -25,6 +25,7 @@ class AppDrawerActivity : AppCompatActivity() {
         val etSearch = findViewById<EditText>(R.id.etDrawerSearch)
 
         adapter = AppListAdapter(
+            loadIcon = { app, callback -> viewModel.loadIconAsync(app, callback) },
             onItemClick = { item -> viewModel.launchApp(item.app) },
             onItemLongClick = { item ->
                 showDrawerMenu(item)
@@ -62,7 +63,6 @@ class AppDrawerActivity : AppCompatActivity() {
         AppActionHelper.showDrawerAppMenu(
             activity = this,
             app = item.app,
-            onAddDesktop = { viewModel.addToDesktop(item.app) },
             onAddDock = { viewModel.addToDock(item.app) },
             onMoveToPrivate = { viewModel.moveToPrivateSpace(item.app) }
         )

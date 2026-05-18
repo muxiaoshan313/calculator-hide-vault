@@ -53,6 +53,7 @@ class PrivateDesktopActivity : AppCompatActivity() {
 
         val rv = findViewById<RecyclerView>(R.id.rvPrivateGrid)
         adapter = AppListAdapter(
+            loadIcon = { app, callback -> viewModel.loadIconAsync(app, callback) },
             onItemClick = { item -> viewModel.launchApp(item.app) },
             onItemLongClick = { item ->
                 AppActionHelper.showPrivateAppMenu(

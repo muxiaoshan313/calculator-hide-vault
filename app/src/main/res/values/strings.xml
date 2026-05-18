@@ -18,9 +18,15 @@
     <string name="public_launcher_title">Public Launcher</string>
     <string name="private_launcher_title">Private Launcher Space</string>
     <string name="private_app_manager_title">Private App Manager</string>
+    <string name="launcher_disclaimer">This only controls apps shown inside this launcher. Apps may still appear in system settings or other launchers.</string>
     <string name="launcher_compliance_notice">This feature creates a private app area inside this launcher. Apps added to Private Space are hidden only from this launcher\'s public home screen. They may still appear in system settings or other launchers. You can remove apps from Private Space at any time.</string>
     <string name="search_apps">Search apps</string>
     <string name="set_default_home">Set as default home screen</string>
+    <string name="set_default_home_prompt">To use this app as your home screen, set it as the default launcher. After that, pressing Home will open this desktop with grid and dock.</string>
+    <string name="empty_desktop_hint">未检测到可启动的应用。\n请确认已授予权限，或尝试将本应用设为默认桌面后重试。</string>
+    <string name="already_on_desktop">该应用已在桌面上显示</string>
+    <string name="launcher_load_failed">加载桌面失败，请重试</string>
+    <string name="desktop_pages_overflow">应用较多，仅显示前 %1$d 页（最多 %2$d 个图标位）</string>
     <string name="back_to_calculator">Back to Calculator</string>
     <string name="exit_private_space">Exit private space</string>
     <string name="remove_all">Remove all from private space</string>

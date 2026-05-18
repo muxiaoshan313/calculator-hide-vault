@@ -13,15 +13,11 @@ class DesktopPageAdapter(
 ) : RecyclerView.Adapter<DesktopPageAdapter.PageViewHolder>() {
 
     private var pages: List<List<DesktopCellUi>> = emptyList()
-    private val gridAdapters = mutableMapOf<Int, DesktopGridAdapter>()
 
     fun submitPages(pages: List<List<DesktopCellUi>>) {
         this.pages = pages
-        gridAdapters.clear()
         notifyDataSetChanged()
     }
-
-    fun getGridAdapter(position: Int): DesktopGridAdapter? = gridAdapters[position]
 
     override fun getItemCount(): Int = pages.size
 
@@ -32,20 +28,26 @@ class DesktopPageAdapter(
     }
 
     override fun onBindViewHolder(holder: PageViewHolder, position: Int) {
-        holder.bind(pages[position], position)
+        holder.bind(pages[position])
     }
 
     inner class PageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val recyclerView: RecyclerView = itemView.findViewById(R.id.rvDesktopGrid)
+        private var boundAdapter: DesktopGridAdapter? = null
 
-        fun bind(cells: List<DesktopCellUi>, pageIndex: Int) {
-            val adapter = gridAdapters.getOrPut(pageIndex) { gridAdapterFactory() }
-            recyclerView.layoutManager = GridLayoutManager(
-                itemView.context,
-                LauncherConstants.GRID_COLUMNS
-            )
-            recyclerView.adapter = adapter
-            adapter.submitList(cells)
+        fun bind(cells: List<DesktopCellUi>) {
+            if (boundAdapter == null) {
+                boundAdapter = gridAdapterFactory().also {
+                    recyclerView.layoutManager = GridLayoutManager(
+                        itemView.context,
+                        LauncherConstants.GRID_COLUMNS
+                    )
+                    recyclerView.setHasFixedSize(true)
+                    recyclerView.isNestedScrollingEnabled = false
+                    recyclerView.adapter = it
+                }
+            }
+            boundAdapter?.submitList(cells)
         }
     }
 }

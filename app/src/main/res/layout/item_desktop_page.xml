@@ -5,4 +5,5 @@
     android:layout_height="match_parent"
     android:clipToPadding="false"
     android:overScrollMode="never"
+    android:nestedScrollingEnabled="false"
     android:padding="4dp" />

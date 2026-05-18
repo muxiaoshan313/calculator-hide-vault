@@ -52,9 +52,10 @@ class PrivateAppManagerActivity : AppCompatActivity() {
         val rv = findViewById<RecyclerView>(R.id.rvManagerApps)
         val etSearch = findViewById<EditText>(R.id.etManagerSearch)
 
-        adapter = ManagerAppAdapter { item ->
-            viewModel.toggleHidden(item.app)
-        }
+        adapter = ManagerAppAdapter(
+            loadIcon = { app, callback -> viewModel.loadIconAsync(app, callback) },
+            onItemClick = { item -> viewModel.toggleHidden(item.app) }
+        )
         rv.layoutManager = LinearLayoutManager(this)
         rv.adapter = adapter
 

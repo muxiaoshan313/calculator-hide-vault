@@ -2,6 +2,8 @@ package calculator.hide.vaultpro.ui.launcher
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
@@ -9,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,14 +45,25 @@ class HomeLauncherActivity : AppCompatActivity() {
         val pageIndicator = findViewById<LinearLayout>(R.id.pageIndicator)
         val rvDock = findViewById<RecyclerView>(R.id.rvDock)
         val etSearch = findViewById<EditText>(R.id.etHomeSearch)
+        val btnSetDefaultHome = findViewById<Button>(R.id.btnSetDefaultHome)
+
+        updateDefaultHomeButton(btnSetDefaultHome)
+        btnSetDefaultHome.setOnClickListener {
+            LauncherHomeSettingsHelper.requestDefaultHome(this)
+        }
+        if (!LauncherHomeSettingsHelper.isDefaultHome(this)) {
+            maybePromptSetDefaultHome()
+        }
 
         pageAdapter = DesktopPageAdapter {
             DesktopGridAdapter(
+                loadIcon = { app, callback -> viewModel.loadIconAsync(app, callback) },
                 onAppClick = { cell -> cell.app?.let { viewModel.launchApp(it) } },
                 onAppLongClick = { cell -> cell.app?.let { showDesktopMenu(cell) } }
             )
         }
         vpDesktop.adapter = pageAdapter
+        vpDesktop.offscreenPageLimit = 1
         vpDesktop.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 viewModel.setCurrentScreen(position)
@@ -58,6 +72,7 @@ class HomeLauncherActivity : AppCompatActivity() {
         })
 
         dockAdapter = DockAdapter(
+            loadIcon = { app, callback -> viewModel.loadIconAsync(app, callback) },
             onAppClick = { slot -> slot.app?.let { viewModel.launchApp(it) } },
             onAppLongClick = { slot -> slot.app?.let { showDockMenu(slot) } }
         )
@@ -84,13 +99,18 @@ class HomeLauncherActivity : AppCompatActivity() {
             }
         }
 
+        val emptyHint = findViewById<TextView>(R.id.tvEmptyDesktopHint)
         viewModel.desktopPages.observe(this) { pages ->
             pageAdapter.submitPages(pages)
             setupPageIndicator(pageIndicator, pages.size)
+            val hasDesktopApps = pages.any { page -> page.any { it.app != null } }
+            emptyHint.visibility = if (hasDesktopApps) View.GONE else View.VISIBLE
         }
         viewModel.dockSlots.observe(this) { dockAdapter.submitList(it) }
         viewModel.currentScreen.observe(this) { screen ->
-            if (vpDesktop.currentItem != screen) vpDesktop.setCurrentItem(screen, false)
+            if (vpDesktop.currentItem != screen && screen < pageAdapter.itemCount) {
+                vpDesktop.setCurrentItem(screen, false)
+            }
         }
         viewModel.toastMessage.observe(this) { msg ->
             msg?.let {
@@ -98,8 +118,6 @@ class HomeLauncherActivity : AppCompatActivity() {
                 viewModel.clearToast()
             }
         }
-
-        viewModel.refresh()
     }
 
     override fun onStart() {
@@ -115,7 +133,35 @@ class HomeLauncherActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        findViewById<Button>(R.id.btnSetDefaultHome)?.let { updateDefaultHomeButton(it) }
         viewModel.refresh()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == LauncherHomeSettingsHelper.REQUEST_DEFAULT_HOME) {
+            LauncherHomeSettingsHelper.onDefaultHomeResult(this, resultCode)
+            findViewById<Button>(R.id.btnSetDefaultHome)?.let { updateDefaultHomeButton(it) }
+        }
+    }
+
+    private fun updateDefaultHomeButton(button: Button) {
+        val isDefault = LauncherHomeSettingsHelper.isDefaultHome(this)
+        button.visibility = if (isDefault) View.GONE else View.VISIBLE
+    }
+
+    private fun maybePromptSetDefaultHome() {
+        val prefs = getSharedPreferences(PREFS_LAUNCHER, MODE_PRIVATE)
+        if (prefs.getBoolean(KEY_PROMPTED_DEFAULT_HOME, false)) return
+        prefs.edit().putBoolean(KEY_PROMPTED_DEFAULT_HOME, true).apply()
+        AlertDialog.Builder(this)
+            .setTitle(R.string.set_default_home)
+            .setMessage(R.string.set_default_home_prompt)
+            .setPositiveButton(R.string.set_default_home) { _, _ ->
+                LauncherHomeSettingsHelper.requestDefaultHome(this)
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
     }
 
     private fun openPrivateSpace() {
@@ -132,8 +178,8 @@ class HomeLauncherActivity : AppCompatActivity() {
         AppActionHelper.showDesktopAppMenu(
             activity = this,
             app = app,
-            onRemoveFromDesktop = { viewModel.removeFromDesktop(cell.desktopId) },
-            onMoveToPrivate = { viewModel.moveToPrivateSpace(app) }
+            onMoveToPrivate = { viewModel.moveToPrivateSpace(app) },
+            onAddToDock = { viewModel.addToDock(app) }
         )
     }
 
@@ -162,6 +208,11 @@ class HomeLauncherActivity : AppCompatActivity() {
             }
             container.addView(dot)
         }
+    }
+
+    companion object {
+        private const val PREFS_LAUNCHER = "launcher_prefs"
+        private const val KEY_PROMPTED_DEFAULT_HOME = "prompted_default_home"
     }
 
     private fun updatePageIndicator(container: LinearLayout, selected: Int) {

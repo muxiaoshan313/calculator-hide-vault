@@ -60,4 +60,12 @@ object LauncherHomeSettingsHelper {
             Toast.makeText(activity, R.string.default_home_set, Toast.LENGTH_SHORT).show()
         }
     }
+
+    fun isDefaultHome(activity: Activity): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val roleManager = activity.getSystemService(AndroidRoleManager::class.java)
+            return roleManager.isRoleHeld(AndroidRoleManager.ROLE_HOME)
+        }
+        return false
+    }
 }

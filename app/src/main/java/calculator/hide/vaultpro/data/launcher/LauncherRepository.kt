@@ -149,7 +149,7 @@ class LauncherRepository(context: Context) {
         items: List<DesktopItemEntity>
     ): DesktopSlot? {
         val occupied = items.associateBy { Triple(it.screenIndex, it.cellX, it.cellY) }
-        for (screen in 0 until LauncherConstants.MAX_SCREENS) {
+        for (screen in 0 until LauncherConstants.MAX_SCREENS_CAP) {
             for (y in 0 until LauncherConstants.GRID_ROWS) {
                 for (x in 0 until LauncherConstants.GRID_COLUMNS) {
                     if (Triple(screen, x, y) !in occupied) {

@@ -1,5 +1,6 @@
 package calculator.hide.vaultpro.ui.launcher
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +12,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import calculator.hide.vaultpro.R
+import calculator.hide.vaultpro.data.launcher.LaunchableApp
 
 class ManagerAppAdapter(
+    private val loadIcon: ((LaunchableApp, (Drawable?) -> Unit) -> Unit)? = null,
     private val onItemClick: (AppListItemUi) -> Unit
 ) : ListAdapter<AppListItemUi, ManagerAppAdapter.ViewHolder>(DiffCallback) {
 
@@ -31,17 +34,22 @@ class ManagerAppAdapter(
         private val labelView: TextView = itemView.findViewById(R.id.tvLabel)
         private val packageView: TextView = itemView.findViewById(R.id.tvPackage)
         private val checkBox: CheckBox = itemView.findViewById(R.id.cbHidden)
+        private val placeholder =
+            ContextCompat.getDrawable(itemView.context, R.mipmap.ic_launcher)
 
         fun bind(item: AppListItemUi) {
             labelView.text = item.app.label.ifBlank { item.app.packageName }
             packageView.text = item.app.packageName
             checkBox.isChecked = item.isHidden
-            iconView.setImageDrawable(
-                item.icon ?: ContextCompat.getDrawable(
-                    itemView.context,
-                    R.mipmap.ic_launcher
-                )
-            )
+            itemView.setTag(R.id.ivIcon, item.app.key)
+            iconView.setImageDrawable(item.icon ?: placeholder)
+            if (item.icon == null && loadIcon != null) {
+                loadIcon(item.app) { drawable ->
+                    if (itemView.getTag(R.id.ivIcon) == item.app.key) {
+                        iconView.setImageDrawable(drawable ?: placeholder)
+                    }
+                }
+            }
             itemView.setOnClickListener { onItemClick(item) }
         }
     }
